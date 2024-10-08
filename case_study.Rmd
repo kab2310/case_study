@@ -1,0 +1,70 @@
+---
+title: "Case Study"
+output: github_document
+---
+
+```{r, include= FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(readr)
+library(ggplot2)
+library(dplyr)
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+Load key packages.
+
+
+```{r}
+nyc_airbnb <- read_csv("~/Documents/Columbia /Second Year MPH/Data Science Course /20241008/nyc_airbnb.csv")
+View(nyc_airbnb)
+```
+
+
+```{r}
+str(nyc_airbnb)
+
+
+nyc_airbnb %>%
+  count(room_type)
+
+nyc_airbnb %>%
+  count(neighbourhood_group)
+```
+
+#plotting graphs
+```{r}
+ggplot(nyc_airbnb, aes(x = long, y = lat)) +
+  geom_point(alpha = 0.5, color = "blue") +
+  labs(title = "NYC Airbnb Unit Locations",
+       x = "Longitude",
+       y = "Latitude") +
+  theme_minimal()
+```
+
+```{r}
+ neigh_ <- nyc_airbnb %>%
+  group_by(neighbourhood, minimum_nights) |>
+  summarise(
+    count = n(),               
+    avg_price = mean(price, na.rm = TRUE)  
+  )
+
+```
+
+Impact on neighborhood on price 
